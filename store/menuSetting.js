@@ -5,7 +5,6 @@ export const state = () => ({
   miniVariant: false,
 })
 
-
 export const mutations = {
 
 }
