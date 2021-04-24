@@ -2,27 +2,25 @@
   <v-app>
     <sideMenu/>
 
+    <!--  顶部栏  -->
     <v-app-bar :clipped-left="clipped" fixed app >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
+      <v-app-bar-nav-icon @click.stop="triggerDrawer"/>
+      <v-btn icon @click.stop="triggerMiniVariant">
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
+      <v-btn icon @click.stop="triggerClipped">
         <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>mdi-minus</v-icon>
       </v-btn>
       <v-toolbar-title v-text="title" />
     </v-app-bar>
 
     <!-- 显示区 -->
     <v-main>
-      <v-container> <nuxt /> </v-container>
+      <v-container> <nuxt/> </v-container>
     </v-main>
 
-
-    <v-footer :absolute="!fixed" app >
+    <!--  页脚  -->
+    <v-footer absolute app >
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
@@ -30,6 +28,7 @@
 
 <script>
 import sideMenu from './sideMenu'
+import {mapMutations, mapState} from "vuex";
 
 export default {
   components:{
@@ -37,24 +36,22 @@ export default {
   },
   data () {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
-      miniVariant: false,
       title: 'Vuetify.js'
     }
+  },
+  computed:{
+    ...mapState({
+      miniVariant:state=>state.menuSetting.miniVariant,
+      clipped:state=>state.menuSetting.clipped,
+      drawer:state=>state.menuSetting.drawer,
+    })
+  },
+  methods:{
+    ...mapMutations({
+      triggerMiniVariant:'menuSetting/triggerMiniVariant',
+      triggerClipped:'menuSetting/triggerClipped',
+      triggerDrawer:'menuSetting/triggerDrawer',
+    })
   }
 }
 </script>
