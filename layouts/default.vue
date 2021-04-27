@@ -4,7 +4,7 @@
 
     <!--  顶部栏  -->
     <v-app-bar :clipped-left="clipped" fixed app >
-      <v-app-bar-nav-icon @click.stop="triggerDrawer"/>
+<!--      <v-app-bar-nav-icon @click.stop="triggerDrawer"/>-->
       <v-btn icon @click.stop="triggerMiniVariant">
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
