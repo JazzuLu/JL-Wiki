@@ -22,16 +22,9 @@ export default {
   data () {
     return {
       items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
+        { icon: 'mdi-apps', title: 'Welcome', to: '/' },
+        { icon: 'mdi-chart-bubble', title: 'Inspire', to: '/inspire' },
+        { icon: 'mdi-chart-bubble', title: 'Edit Page', to: '/mdEdit' },
       ],
     }
   },

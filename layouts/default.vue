@@ -36,7 +36,7 @@ export default {
   },
   data () {
     return {
-      title: 'Vuetify.js'
+      title: 'J-Wiki'
     }
   },
   computed:{
