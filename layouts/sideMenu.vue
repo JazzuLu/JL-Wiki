@@ -24,7 +24,8 @@ export default {
       items: [
         { icon: 'mdi-apps', title: 'Welcome', to: '/' },
         { icon: 'mdi-chart-bubble', title: 'Inspire', to: '/inspire' },
-        { icon: 'mdi-chart-bubble', title: 'Edit Page', to: '/mdEdit' },
+        { icon: 'mdi-chart-bubble', title: 'Editor Page', to: '/mdEditor' },
+        { icon: 'mdi-chart-bubble', title: 'Full Editor Page', to: '/fullEditor' },
       ],
     }
   },
@@ -37,7 +38,9 @@ export default {
   },
 
   mounted() {
-    console.log(this.$store)
+    console.log(this)
+    this.$axios.$post('/api/admin/signup',{name:'lpc',password:'111111'})
+
   }
 
 }
