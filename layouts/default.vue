@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <sideMenu/>
+    <sideMenu v-if="showMenuBar"/>
 
     <!--  顶部栏  -->
-    <v-app-bar :clipped-left="clipped" fixed app >
+    <v-app-bar v-if="showMenuBar" :clipped-left="clipped" fixed app>
 <!--      <v-app-bar-nav-icon @click.stop="triggerDrawer"/>-->
       <v-btn icon @click.stop="triggerMiniVariant">
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
@@ -20,7 +20,7 @@
     </v-main>
 
     <!--  页脚  -->
-    <v-footer absolute app >
+    <v-footer v-if="showMenuBar" absolute app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
@@ -44,7 +44,13 @@ export default {
       miniVariant:state=>state.menuSetting.miniVariant,
       clipped:state=>state.menuSetting.clipped,
       drawer:state=>state.menuSetting.drawer,
-    })
+    }),
+    showMenuBar(){
+      return this.$route.name!=='login'
+    }
+  },
+  mounted() {
+    console.log()
   },
   methods:{
     ...mapMutations({

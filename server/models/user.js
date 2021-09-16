@@ -52,6 +52,4 @@ const UserSchema = new Schema({
     minimize: false,
   })
 
-export const User = {
-  User:mongoose.model('User', UserSchema)
-}
+export default mongoose.model('User', UserSchema)

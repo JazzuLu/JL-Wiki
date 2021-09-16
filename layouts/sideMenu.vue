@@ -39,7 +39,8 @@ export default {
 
   mounted() {
     console.log(this)
-    this.$axios.$post('/api/admin/signup',{name:'lpc',password:'111111'})
+    // this.$axios.$post('/api/admin/signup',{username:'lpc',password:'111111'})
+    // this.$axios.$get('/api/api/admin',)
 
   }
 

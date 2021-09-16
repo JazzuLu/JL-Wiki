@@ -1,6 +1,6 @@
 const isPro = process.env.NODE_ENV === 'production'
 
-module.exports = {
+export default {
   mongodb: {
     host: 'localhost',
     database: 'blog',
