@@ -13,23 +13,12 @@ const UserSchema = new Schema({
     trim: true,
     unique: true, // 用户名不能重复
   },
-  nickname: {
-    type: String,
-    trim: true,
-    default: '',
-  },
   password: {
     type: String,
     set: md5,
   },
-  description: {
-    type: String,
-    default: '',
-  },
   email: {
     type: String,
-    unique: true, // 邮箱不能重复
-    trim: true,
     lowercase: true,
   },
 }, {

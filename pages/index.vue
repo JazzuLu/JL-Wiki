@@ -79,11 +79,15 @@
 <script>
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import md5 from 'md5';
 
 export default {
   components: {
     Logo,
     VuetifyLogo
+  },
+  async mounted() {
+    let fetchLogin = await this.$axios.$post('/api/api/register',{code:'123',username:'test1',password:'1234567',});
   }
 }
 </script>

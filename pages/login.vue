@@ -2,12 +2,12 @@
   <div class="full_screen" :style="`background: url(${login_bg}) no-repeat`">
     <v-card class="d-flex mx-auto wiki_login" style="margin-top:30vh;">
       <v-layout class="mx-auto title mb-4" align-center >
-        <span class="font-weight-light mr-3">bluebee WIKI</span>
+        <span class="font-weight-light mr-3">Jazzu WIKI</span>
       </v-layout>
 
-      <v-text-field style="font-size: 12px;" outlined dense prepend-inner-icon="mdi-account" placeholder="账户" v-model="bbUsername" @keyup.enter="subLogin"></v-text-field>
-      <v-text-field style="font-size: 12px;" outlined dense prepend-inner-icon="mdi-form-textbox-password" placeholder="密码" type="password" v-model="bbPassword"> @keyup.enter="subLogin"</v-text-field>
-      <v-text-field style="font-size: 12px;" outlined dense prepend-inner-icon="mdi-check-circle-outline" placeholder="验证码" v-model="code"  :class="valid_code_class" @keyup.enter="subLogin">
+      <v-text-field style="font-size: 12px;" outlined dense prepend-inner-icon="mdi-account" placeholder="账户" v-model="bbUsername" @keyup.enter="subLogin"/>
+      <v-text-field style="font-size: 12px;" outlined dense prepend-inner-icon="mdi-form-textbox-password" placeholder="密码" type="password" v-model="bbPassword" @keyup.enter="subLogin"/>
+      <v-text-field style="font-size: 12px;" outlined dense prepend-inner-icon="mdi-check-circle-outline" placeholder="验证码" v-model="code" :class="valid_code_class" @keyup.enter="subLogin">
         <template v-slot:append="">
           <span class="v-code-span mt-1" @click="refreshCode" style="cursor: pointer;font-size: 16px;">{{checkCode}}</span>
         </template>

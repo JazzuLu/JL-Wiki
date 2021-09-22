@@ -1,14 +1,40 @@
-require('md5')
+import md5 from "md5";
 import globalConfig from '../global.config'
 import token from '../utils/token'
 import User from '../models/user'
 
-/** todo：待完成 **/
 const register = async (req, res, next) => {
   const msg = req.checkBody({
-    code: {
-      required: '验证码不能为空',
+    username: {
+      required: '用户名不能为空',
     },
+    password: {
+      required: '密码不能为空',
+      range: { min: 6, max: 30, message: '密码介于6-30个字符之间' },
+    },
+  })
+  if (msg) return res.handleError(msg);
+
+  const { body } = req;
+  const user = await User.findOne({
+    username: body.username,
+  }).exec();
+  if(user) return res.handleError('用户已存在');
+
+  try {
+    await User.create({
+      username:body.username,
+      password:body.password,
+      email:body.email || '',
+    })
+    res.handleSuccess(User)
+  } catch (error) {
+    res.handleError('注册失败', error)
+  }
+}
+
+const login = async (req, res, next) => {
+  const msg = req.checkBody({
     username: {
       required: '用户名不能为空',
     },
@@ -21,50 +47,23 @@ const register = async (req, res, next) => {
 
   try {
     const { body } = req
-    if (md5(body.code) !== req.cookies.code) { res.handleError('验证码错误') }
-
-  } catch (error) {
-    res.handleError('注册失败', error)
-  }
-}
-
-const login = async (req, res, next) => {
-  const msg = req.checkBody({
-    // code: {
-    //   required: '验证码不能为空',
-    // },
-    username: {
-      required: '用户名不能为空',
-    },
-    password: {
-      required: '密码不能为空',
-      // range: { min: 5, max: 30, message: '密码介于5-30个字符之间' },
-    },
-  })
-  if (msg) return res.handleError(msg)
-
-  // try {
-    const { body } = req
-    if (md5(body.code) !== req.cookies.code) { res.handleError('验证码错误') }
     const user = await User.findOne({
       username: body.username,
       password: body.password,
     }).exec()
-    console.log('user',user)
     if (user) {
       const t = token.sign(user)
       res.cookie('token', t, {
         maxAge: globalConfig.jwt.expiresIn * 1000, // 与jwt有限期一致，cookie是毫秒
         httpOnly: true,
       })
-      res.clearCookie('code')
       res.handleSuccess({ token: t })
     } else {
       res.handleError('用户名或密码错误')
     }
-  // } catch (error) {
-  //   res.handleError('登录失败', error)
-  // }
+  } catch (error) {
+    res.handleError('登录失败', error)
+  }
 }
 
 const logout = (req, res) => {

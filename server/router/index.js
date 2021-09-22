@@ -7,6 +7,8 @@ const router = require('express').Router()
 router
   .get('/api/admin',
     user.getAdmin)
+  .post('/api/register',
+    user.register)
   .post('/api/login',
     user.login)
   .post('/api/logout',
