@@ -9,18 +9,16 @@ export default {
     pass: '',
   },
   app: {
-    domain: isPro ? 'https://www.86886.wang' : 'http://127.0.0.1:3025',
+    domain: isPro ? 'https://www.86886.wang' : 'http://127.0.0.1:3000',
   },
-  admin: {
-    username: 'admin',
-    nickname: 'wmui',
+  admin: {    /** 默认用户 **/
+    username: 'root',
     password: '123456',
-    description: '前端工程师',
-    email: 'qq22337383@gmail.com',
+    email: '358881374@qq.com',
   },
   jwt: {
     expiresIn: 365 * 86400,
-    secret: 'essay', // 如果部署到线上，一定要修改
+    secret: 'jl_wiki', // 如果部署到线上，一定要修改
   },
   pm2: {
     host: '116.196.17.78',

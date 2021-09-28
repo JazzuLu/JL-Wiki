@@ -57,7 +57,7 @@ const login = async (req, res, next) => {
         maxAge: globalConfig.jwt.expiresIn * 1000, // 与jwt有限期一致，cookie是毫秒
         httpOnly: true,
       })
-      res.handleSuccess({ token: t })
+      res.handleSuccess({ token: t, role:user.role })
     } else {
       res.handleError('用户名或密码错误')
     }

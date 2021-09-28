@@ -4,7 +4,7 @@ import db from './models'
 import router from './router'
 import handle from './middlewares/handle'
 import validate from './middlewares/validate'
-console.log(handle)
+import User from "./models/user";
 
 const app = require('express')();
 
@@ -12,15 +12,12 @@ const app = require('express')();
 //   res.send('Hello World!')
 // })
 
-console.log('db=========:=',db,handle)
 
 // app.use(cookieParser());
 app.use(bodyParser.json())
   .use(handle)
   .use(validate)
   .use(router)
-
-
 
 module.exports = {
   path: 'api',
