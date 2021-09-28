@@ -1,5 +1,9 @@
 <template>
   <v-navigation-drawer :mini-variant="miniVariant" :clipped="clipped" fixed app>
+    <div class="jl_sidebar_header">
+      <div class="jl_logo">JL</div>
+      <div class="jl_title">JL WiKi</div>
+    </div>
     <v-list>
       <v-list-item v-for="(item, i) in items" :key="i" :to="item.to" router exact>
         <v-list-item-action>
@@ -24,7 +28,7 @@ export default {
       items: [
         { icon: 'mdi-apps', title: 'Welcome', to: '/' },
         { icon: 'mdi-chart-bubble', title: 'Inspire', to: '/inspire' },
-        { icon: 'mdi-chart-bubble', title: 'Editor Page', to: '/mdEditor' },
+        { icon: 'mdi-fountain-pen-tip', title: 'Editor Page', to: '/mdEditor' },
         { icon: 'mdi-chart-bubble', title: 'Full Editor Page', to: '/fullEditor' },
       ],
     }
@@ -46,3 +50,9 @@ export default {
 
 }
 </script>
+
+<style>
+.jl_sidebar_header{height: 64px;display: flex;align-items: center;padding: 0 15px;}
+.jl_sidebar_header .jl_title{margin-left: 20px;font-size: 20px;font-weight: bolder;}
+.jl_sidebar_header .jl_logo{background: #00d2c0;border-radius: 100%;color: #fff;width: 38px;height: 38px;line-height: 38px;font-weight: bolder;text-align: center;}
+</style>

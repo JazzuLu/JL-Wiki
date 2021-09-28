@@ -22,7 +22,6 @@
 
   import login_bg from 'assets/login_bg.svg'
   import {mapMutations} from 'vuex'
-  import md5 from 'md5';
 
   export default {
     components: {
@@ -32,8 +31,8 @@
       return {
         login_bg,
 
-        bbUsername:'lpc',
-        bbPassword:'123456',
+        bbUsername:'test1',
+        bbPassword:'1234567',
         code:'',
         checkCode:'',
         loginBtn:false,
@@ -63,17 +62,17 @@
     methods:{
       ...mapMutations(['changeLogin']),
       async subLogin(){
-        // if(this.checkCode.toLocaleLowerCase()!==this.code.toLocaleLowerCase()){ this.$notify({ type: 'error', title: '请检查验证码',});return ; }
+        if(this.checkCode.toLocaleLowerCase()!==this.code.toLocaleLowerCase()){ this.$notify({ type: 'error', title: '请检查验证码' });return ; }
         let params = {
           username:this.bbUsername,
-          password:md5(this.bbPassword),
+          password:this.bbPassword,
         };
         let fetchLogin = await this.$axios.$post('/api/api/login',params);
         if(!fetchLogin.status){
           this.changeLogin({ Authorization: fetchLogin.data.token, ...fetchLogin.data })
-          // await this.$router.push('/')
+          await this.$router.push('/')
         }else{
-          // this.$notify({ type: 'error', title: fetchLogin.message,});
+          this.$notify({ type: 'error', title: fetchLogin.message,});
         }
 
       },
@@ -98,7 +97,7 @@
 
 <style>
   .full_screen{width: 100%;height: 100%;}
-  .wiki_login{flex-direction: column;height: 345px;width: 320px;padding: 28px 40px;}
+  .wiki_login{flex-direction: column;width: 320px;padding: 28px 40px;}
 
   .login-code-valid .v-icon{ color: #91bc29 !important; }
 </style>

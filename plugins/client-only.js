@@ -12,6 +12,11 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
+/** 提示弹窗 **/
+import Notifications from 'vue-notification'
+
 Vue.use(VueQuillEditor, /* { default global options } */)
 
 Vue.use(mavonEditor)
+
+Vue.use(Notifications)

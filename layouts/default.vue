@@ -1,7 +1,7 @@
 <template>
   <v-app>
+    <JLNotify style="z-index: 10000;"/>
     <sideMenu v-if="showMenuBar"/>
-
     <!--  顶部栏  -->
     <v-app-bar v-if="showMenuBar" :clipped-left="clipped" fixed app>
 <!--      <v-app-bar-nav-icon @click.stop="triggerDrawer"/>-->
@@ -29,10 +29,12 @@
 <script>
 import sideMenu from './sideMenu'
 import {mapMutations, mapState} from "vuex";
+import JLNotify from "../components/JLNotify";
 
 export default {
   components:{
-    sideMenu
+    JLNotify,
+    sideMenu,
   },
   data () {
     return {
