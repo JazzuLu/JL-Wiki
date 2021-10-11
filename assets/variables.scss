@@ -3,3 +3,28 @@
 // The variables you want to modify
 // $font-size-root: 20px;
 // import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
+
+body{
+  background: #fefefe;
+}
+
+
+*::-webkit-scrollbar {
+  width: 6px; height: 6px;
+  &:hover {
+    width: 6px; height: 6px;
+  }
+}
+*::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.5);
+  &:hover {
+    cursor: pointer;
+    background-color: #90cdee;
+  }
+  &:active {
+    background-color: #0077be;
+  }
+}
+*::-webkit-scrollbar-track { background-color: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 0, 0, 0.1); }
+*::-webkit-scrollbar-button { display: none; }

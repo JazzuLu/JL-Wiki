@@ -1,18 +1,8 @@
 <template>
   <v-app>
     <JLNotify style="z-index: 10000;"/>
-    <sideMenu v-if="showMenuBar"/>
     <!--  顶部栏  -->
-    <v-app-bar v-if="showMenuBar" :clipped-left="clipped" fixed app>
-<!--      <v-app-bar-nav-icon @click.stop="triggerDrawer"/>-->
-      <v-btn icon @click.stop="triggerMiniVariant">
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="triggerClipped">
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-    </v-app-bar>
+    <top-menu v-if="showMenuBar"/>
 
     <!-- 显示区 -->
     <v-main>
@@ -27,14 +17,14 @@
 </template>
 
 <script>
-import sideMenu from './sideMenu'
 import {mapMutations, mapState} from "vuex";
 import JLNotify from "../components/JLNotify";
+import TopMenu from "./topMenu";
 
 export default {
   components:{
+    TopMenu,
     JLNotify,
-    sideMenu,
   },
   data () {
     return {

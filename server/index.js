@@ -20,6 +20,6 @@ app.use(bodyParser.json())
   .use(router)
 
 module.exports = {
-  path: 'api',
+  path: '',
   handler: app
 }

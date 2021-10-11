@@ -1,7 +1,18 @@
 <template>
-  <v-row justify="center" align="center">
-    111
-  </v-row>
+  <div class="jl_main">
+    <div class="jl_banner">
+      <v-img/>
+    </div>
+    <v-row>
+      <v-col cols="9">
+        <v-card></v-card>
+      </v-col>
+      <v-col cols="4">
+        <v-card></v-card>
+        <v-card></v-card>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -14,7 +25,11 @@ export default {
     VuetifyLogo
   },
   async mounted() {
-    // let fetchLogin = await this.$axios.$post('/api/api/register',{code:'123',username:'test1',password:'1234567',});
+    // let fetchLogin = await this.$axios.$post('/api/register',{code:'123',username:'test1',password:'1234567',});
   }
 }
 </script>
+
+<style>
+
+</style>
