@@ -1,5 +1,6 @@
 import article from './article'
 import user from './user'
+import category from './category'
 import check from '../middlewares/check'
 const router = require('express').Router()
 
@@ -21,6 +22,21 @@ router
     check.auth('token'),
     user.patchAdmin)
 
+router
+  .get('/api/categories',
+    check.filter('token'),
+    category.getCategories)
+  .get('/api/category/:id',
+    category.getCategory)
+  .post('/api/category',
+    check.auth('token'),
+    category.postCategory)
+  .patch('/api/category/:id',
+    check.auth('token'),
+    category.patchCategory)
+  .delete('/api/category/:id',
+    check.auth('token'),
+    category.deleteCategory)
 
 router
   .get('/api/articles',

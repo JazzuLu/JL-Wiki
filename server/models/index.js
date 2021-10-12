@@ -2,7 +2,8 @@ import mongoose from 'mongoose'
 import config from '../global.config'
 
 import User from './user'
-import article from './article'
+import Article from './article'
+import Category from './category'
 
 const dbURI = `mongodb://${config.mongodb.host}:${config.mongodb.port}/${config.mongodb.database}`
 
@@ -10,9 +11,15 @@ const dbURI = `mongodb://${config.mongodb.host}:${config.mongodb.port}/${config.
 mongoose.connect(dbURI).then(async (r) => {
 
   /** 创建超级管理员 **/
-  const user = await User.findOne({ role: 'superAdmin', username: config.admin.username, }).exec();
-  if(!user) {
+  const superAdmin = await User.findOne({ role: 'superAdmin', username: config.admin.username, }).exec();
+  if(!superAdmin) {
     await User.create({ role: 'superAdmin', ...config.admin })
+  }
+
+  /** 创建默认分类 **/
+  const defaultCategory = await Category.findOne({ title: '默认分类' }).exec();
+  if(!defaultCategory) {
+    await Category.create({ title: '默认分类', keywords: '默认分类', description: '默认分类', })
   }
 
 }).catch(error=>{
@@ -21,6 +28,7 @@ mongoose.connect(dbURI).then(async (r) => {
 
 export default {
   User,
-  article,
+  Article,
+  Category,
 }
 
