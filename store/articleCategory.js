@@ -40,9 +40,7 @@ export const mutations = {
 
 export const actions = {
 
-  /**
-   * article api
-   */
+  /** article api **/
   async deleteArticle({ commit }, id) {
     return await ajax.delete(`/article/${id}`)
   },
@@ -52,95 +50,46 @@ export const actions = {
   async patchArticle({ commit }, body) {
     return await ajax.patch(`/article/${body.id}`, body)
   },
-  async getArticle({ commit, state }, id) {
+  async getArticle({ commit, rootState }, id) {
     // 如果是管理员，可以看到私有文章
-    const { token } = state
-    const { data } = await ajax.get(`/article/${id}`, {
-      headers: {
-        token,
-      },
-    })
-    commit('setData', {
-      key: 'article',
-      value: data,
-    })
+    const { token } = rootState.user
+    const { data } = await ajax.get(`/article/${id}`, { headers: { token, }, })
+    commit('setData', { key: 'article', value: data, })
   },
-  async getArticlesTop({ commit, state }) {
-    const { token } = state
-    const { data } = await ajax.get(`/articles-top`, {
-      headers: {
-        token,
-      },
-    })
-    commit('setData', {
-      key: 'articlesTop',
-      value: data,
-    })
+  async getArticlesTop({ commit, rootState }) {
+    const { token } = rootState.user
+    const { data } = await ajax.get(`/articles-top`, { headers: { token, }, })
+    commit('setData', { key: 'articlesTop', value: data, })
   },
 
   // 获取最新文章
-  async getArticlesNew({ commit, state }) {
-    const { token } = state
-    const { data } = await ajax.get(`/articles-new`, {
-      headers: {
-        token,
-      },
-    })
-    commit('setData', {
-      key: 'articlesNew',
-      value: data,
-    })
+  async getArticlesNew({ commit, rootState }) {
+    const { token } = rootState.user
+    const { data } = await ajax.get(`/articles-new`, { headers: { token, }, })
+    commit('setData', { key: 'articlesNew', value: data, })
   },
   async getArticles({ state, commit }, params) {
-    const { data, total } = await ajax.get('/articles', {
-      params: {
-        ...params,
-        limit: state.limit,
-      }
-    })
-    commit('setArticles', {
-      data,
-      total,
-    })
+    const { data, total } = await ajax.get('/articles', { params: { ...params, limit: state.limit, } })
+    commit('setArticles', { data, total, })
     return data
   },
   async getDrafts({ state, commit }, params) {
-    const { data, total } = await ajax.get('/drafts', {
-      params: {
-        ...params,
-        limit: state.limit,
-      }
-    })
-    commit('setArticles', {
-      data,
-      total,
-    })
+    const { data, total } = await ajax.get('/drafts', { params: { ...params, limit: state.limit, } })
+    commit('setArticles', { data, total, })
     return data
   },
 
-  /**
-   * category api
-   */
-  async getCategories({ commit, state }) {
+  /** category api **/
+  async getCategories({ commit, rootState }) {
     // 管理员可以看到所有分类
-    const { token } = state
-    const { data } = await ajax.get('/categories', {
-      headers: {
-        token,
-      },
-    })
-    commit('setData', {
-      key: 'categories',
-      value: data,
-    })
+    const { token } = rootState.user
+    const { data } = await ajax.get('/categories', { headers: { token, }, })
+    commit('setData', { key: 'categories', value: data, })
     return data
   },
   async getCategory({ commit }, id) {
     const { data } = await ajax.get(`/category/${id}`)
-    commit('setData', {
-      key: 'category',
-      value: data,
-    })
+    commit('setData', { key: 'category', value: data, })
   },
   async postCategory({ commit }, body) {
     return await ajax.post('/category', body)

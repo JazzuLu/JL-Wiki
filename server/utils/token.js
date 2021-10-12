@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken'
 import md5 from 'md5'
 import globalConfig from '../global.config'
 
-console.log(globalConfig)
 const { secret, expiresIn } = globalConfig.jwt
 
 // {username: 'q', _id: 'asdf'} => token

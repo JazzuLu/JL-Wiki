@@ -1,3 +1,4 @@
+import './models'
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import handle from './middlewares/handle'

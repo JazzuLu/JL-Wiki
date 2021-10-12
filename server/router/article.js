@@ -1,5 +1,5 @@
 import Article from '../models/article'
-// const Category = mongoose.model('Category')
+import Category from '../models/category'
 
 const getList = async (req, res, findOption) => {
   const { role } = res.locals.user
@@ -47,8 +47,8 @@ const getList = async (req, res, findOption) => {
   }
 }
 
-const checkArticleBody = (req) => {
-  return req.checkBody({
+const checkArticleBody = (req,res) => {
+  let msg = req.checkBody({
     title: {
       required: '标题不能为空',
       range: { min: 1, max: 100, message: '标题介于1-100个字符之间' },
@@ -57,10 +57,12 @@ const checkArticleBody = (req) => {
       required: '内容不能为空',
       range: { min: 1, max: 10000, message: '内容介于1-10000个字符之间' },
     },
-    category: {
-      required: '分类不能为空',
-    },
+    // category: {
+    //   required: '分类不能为空',
+    // },
   })
+  if(msg) res.handleError(msg);
+  return msg;
 }
 // articles?limit=15&page=1
 // articles?category=asdf&limit=15&page=1
@@ -139,7 +141,7 @@ let getArticle = async (req, res, next) => {
 }
 
 let postArticle = async (req, res, next) => {
-  if (checkArticleBody(req)) return res.handleError(msg)
+  if (checkArticleBody(req,res)) return;
   try {
     const { body } = req
     if (!body.category) {
@@ -155,7 +157,7 @@ let postArticle = async (req, res, next) => {
 }
 
 let patchArticle = async (req, res, next) => {
-  if (checkArticleBody(req)) return res.handleError(msg)
+  if (checkArticleBody(req,res)) return;
   try {
     const { body } = req
     const { id } = req.params

@@ -1,6 +1,6 @@
-const token = require('../utils/token')
+import token from '../utils/token'
 
-let auth = name => async (req, res, next) => {
+const auth = name => async (req, res, next) => {
   const t = req.cookies[name] || req.get(name)
   if (!t) { res.handleError('请登录后操作') }
   try {
@@ -12,9 +12,8 @@ let auth = name => async (req, res, next) => {
   }
 }
 
-
-// 针对token非必须的get接口，如果token无效只返回部分信息
-let filter = name => (req, res, next) => {
+/** 针对 token 非必须的get接口，如果token无效只返回部分信息 **/
+const filter = name => (req, res, next) => {
   const t = req.cookies[name] || req.get(name)
   res.locals.user = {}
 

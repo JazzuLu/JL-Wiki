@@ -1,7 +1,7 @@
 <template>
   <div class="mavonEditor">
     <div class="md_editor_tit mb-3">
-      <v-text-field class="mr-5" v-model="artTitle" outlined="" label="Title" hide-details></v-text-field>
+      <v-text-field class="mr-5" v-model="artTitle" outlined label="Title" hide-details></v-text-field>
       <div v-if="!$vuetify.breakpoint.mdAndDown">
         <v-btn outlined color="primary" class="mde_tit_btn" @click="backToHome"><v-icon left>mdi-arrow-left</v-icon>back</v-btn>
         <v-btn outlined color="primary" class="mde_tit_btn ml-2" @click="saveMd" :disabled="saveBtnDisable"><v-icon left>mdi-content-save</v-icon>save</v-btn>
@@ -19,6 +19,7 @@
 <script>
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import {mapActions} from 'vuex'
 
 export default {
   components: {
@@ -63,17 +64,41 @@ export default {
         preview: true, // 预览
       },
 
-      saveBtnDisable:true,
+      saveBtnDisable:false,
 
-      artTitle:'',
+      artTitle:'my article',
       artValue: "#### use Markdown to build J-Wiki",
     }
   },
 
   methods:{
 
-    saveMd(){
+    ...mapActions({
+      getArticle: 'articleCategory/getArticle',
+      postArticle: 'articleCategory/postArticle',
+      patchArticle: 'articleCategory/patchArticle',
+    }),
 
+    async saveMd(){
+      let params = {
+        title:this.artTitle,
+        content:this.artValue,
+      };
+      this.$route.params.mdId ? params.id = this.$route.params.mdId : '';
+      if(!this.artTitle){
+        this.$notify({ type: 'error', title: '请输入文章标题'});
+      }else if(!this.artValue){
+        this.$notify({ type: 'error', title: '请输入文章内容'});
+      }else {
+        // 保存文章
+        let fetchData = await this.postArticle(params);
+        if(fetchData.success){
+          this.$notify({ type: 'success', title: '保存成功',});
+
+        }else{
+          this.$notify({ type: 'error', title: fetchData.message,});
+        }
+      }
     },
 
     /** 上传图片回调 **/
