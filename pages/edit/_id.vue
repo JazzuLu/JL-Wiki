@@ -17,14 +17,11 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
 import {mapActions} from 'vuex'
 
 export default {
   components: {
-    Logo,
-    VuetifyLogo
+
   },
   data() {
     return {
@@ -71,6 +68,24 @@ export default {
     }
   },
 
+  watch:{
+    '$route.params':{
+      async handler(params){
+        setTimeout(async ()=>{
+          if(params.id) {
+            let { data } = await this.getArticle(params.id);
+            this.artTitle = data.title;
+            this.artValue = data.content;
+          }
+        },0)
+      },
+      immediate: true
+    }
+  },
+
+  mounted() {
+  },
+
   methods:{
 
     ...mapActions({
@@ -84,26 +99,26 @@ export default {
         title:this.artTitle,
         content:this.artValue,
       };
-      this.$route.params.mdId ? params.id = this.$route.params.mdId : '';
+      if(this.$route.params.id) params.id = this.$route.params.id;
       if(!this.artTitle){
         this.$notify({ type: 'error', title: '请输入文章标题'});
       }else if(!this.artValue){
         this.$notify({ type: 'error', title: '请输入文章内容'});
       }else {
         // 保存文章
-        let fetchData = await this.postArticle(params);
-        if(fetchData.success){
+        let { data } = await this.postArticle(params);
+        // let { data } = params.id ? await this.patchArticle(params) : await this.postArticle(params);
+        if(data.success){
           this.$notify({ type: 'success', title: '保存成功',});
-
         }else{
-          this.$notify({ type: 'error', title: fetchData.message,});
+          this.$notify({ type: 'error', title: data.message,});
         }
       }
     },
 
     /** 上传图片回调 **/
     async uploadImg(pos, $file){
-      let Authorization = localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '';
+      let token = localStorage.getItem('token') ? localStorage.getItem('token') : '';
 
       // let formdata = new FormData();
       // formdata.append('file', $file);
@@ -111,7 +126,7 @@ export default {
       //   url: url_post_upload,
       //   method: 'post',
       //   data: formdata,
-      //   headers: { 'Content-Type': 'multipart/form-data','token':Authorization },
+      //   headers: { 'Content-Type': 'multipart/form-data','token':token },
       // });
       // fetchImg = fetchImg.data;
       // if(!fetchImg.status){
@@ -135,6 +150,7 @@ export default {
         categoryId:this.$route.query.categoryId,
         articleId:this.$route.params.mdId,
       };
+      this.$router.push({path:'/'})
 
       // if(!this.saveBtnDisable){
       //   this.$confirm('编辑尚未保存，确定返回吗?','提示').then(async() => {

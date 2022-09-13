@@ -2,7 +2,7 @@
   <v-app-bar clipped-left fixed app>
     <v-toolbar-title>
       <div class="jl_sidebar_header">
-        <v-avatar size="38" color="#00d2c0" style="font-weight: bold;color: #fff;">JL</v-avatar>
+        <v-avatar size="38" color="jlMain" style="font-weight: bold;color: #fff;">JL</v-avatar>
         <div class="jl_title">JL WiKi</div>
       </div>
     </v-toolbar-title>
@@ -13,6 +13,7 @@
       <v-btn icon small class="ml-2" @click="toUserPage"><v-icon>mdi-account</v-icon></v-btn>
       <v-btn icon small class="ml-2" v-if="isLogin" to="/edit"><v-icon>mdi-pencil</v-icon></v-btn>
       <v-btn icon small class="ml-2" v-if="isLogin" @click="logout"><v-icon>mdi-power-standby</v-icon></v-btn>
+      <v-btn icon small class="ml-2" @click="$vuetify.theme.dark = !$vuetify.theme.dark"><v-icon>mdi-theme-light-dark</v-icon></v-btn>
     </v-toolbar-title>
   </v-app-bar>
 </template>

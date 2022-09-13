@@ -16,13 +16,15 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '@/assets/style/variables.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     // { src: '~/plugins/both-sides.js' },
+    { src: '~/plugins/axios', mode: 'client' },
     { src: '~/plugins/client-only.js', mode: 'client' },
-    { src: '~/plugins/server-only.js', mode: 'server' }
+    { src: '~/plugins/server-only.js', mode: 'server' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

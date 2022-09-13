@@ -1,5 +1,6 @@
 import Article from '../models/article'
 import Category from '../models/category'
+import {cloneDeep} from "lodash";
 
 const getList = async (req, res, findOption) => {
   const { role } = res.locals.user
@@ -29,21 +30,26 @@ const getList = async (req, res, findOption) => {
       })
       .skip(skipCount)
       .limit(limitCount)
-      .sort({
-        createdAt: -1,
-      })
+      .sort({ createdAt: -1, })
       .exec()
     // 非管理员，只返回公开文章，文章必须有分类
 
     let arts = JSON.parse(JSON.stringify(data))
     if (role !== 'superAdmin') {
-      arts = arts.filter(i => i.category.isShow === true)
+      arts = arts.filter(i => i.category.isShow === true);
     }
 
+    /** 描述的字段的最大长度 **/
+    let desNumber = 200;
+    arts.forEach(i=>{
+      i.des = i.content.length>desNumber ? `${i.content.slice(0,desNumber)}...` : i.content;
+      delete i.content;
+      i.createdAt = new Date(i.createdAt).format();
+      i.updatedAt = new Date(i.updatedAt).format();
+    })
     res.handleSuccess(arts, { total })
   } catch (error) {
-
-    res.handleError('文章获取失败', error, 404)
+    res.handleError('文章获取失败', error, 500)
   }
 }
 
@@ -69,27 +75,18 @@ const checkArticleBody = (req,res) => {
 // articles?keywords=js&limit=15&page=1
 // articles?status=1&limit=15&page=1
 let getArticles = async (req, res, next) => {
-  // 默认返回首页推荐的文章
-  let findOption = { status: 2, }
+  /** 默认返回所有文章 **/
+  let findOption = {}
 
   if (req.query.keywords) {
     const reg = new RegExp(decodeURIComponent(req.query.keywords), 'i')
-    findOption = {
-      $or: [{
-        title: {
-          $regex: reg,
-        },
-      }, {
-        content: {
-          $regex: reg,
-        },
-      }],
-    }
+    findOption.$or = [
+      { title: { $regex: reg, }, },
+      { content: { $regex: reg, }, }
+    ]
   }
   if (req.query.category) {
-    findOption = {
-      category: req.query.category,
-    }
+    findOption.category = req.query.category;
   }
 
   await getList(req, res, findOption)
@@ -140,22 +137,31 @@ let getArticle = async (req, res, next) => {
   }
 }
 
+// 添加文章
 let postArticle = async (req, res, next) => {
   if (checkArticleBody(req,res)) return;
   try {
-    const { body } = req
-    if (!body.category) {
-      // 默认分类
-      const def = await Category.findOne({ title: '默认分类' }).exec()
-      body.category = def && def.id
+    const { body } = req;
+
+    // 更新文章
+    if(body.id){
+      const article = await Article.findByIdAndUpdate(body.id, body).exec()
+      res.handleSuccess(article)
+    }else{
+      if (!body.category) {
+        // 默认分类
+        const def = await Category.findOne({ title: '默认分类' }).exec()
+        body.category = def && def.id
+      }
+      const article = await new Article(body).save();
+      res.handleSuccess(article)
     }
-    const article = await new Article(body).save()
-    res.handleSuccess(article)
   } catch (error) {
-    res.handleError('文章添加失败', error)
+    res.handleError('文章操作失败', error)
   }
 }
 
+// 更新文章
 let patchArticle = async (req, res, next) => {
   if (checkArticleBody(req,res)) return;
   try {
