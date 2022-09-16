@@ -5,8 +5,8 @@
 </template>
 
 <script>
-  import login_bg from 'assets/login_bg.svg'
-  import {mapMutations} from 'vuex'
+  // import login_bg from 'assets/login_bg.svg'
+  // import {mapMutations} from 'vuex'
 
   export default {
     components: {
